@@ -20,7 +20,7 @@ from sklearn.naive_bayes import GaussianNB
 import torch
 import torch.nn.functional as F
 from torch.autograd import Variable
-
+import math
 
 
 
@@ -172,5 +172,10 @@ for t in range(500):
     optimizer.step()
     
 
-model(WW1)
+outcome=model(WW1)
+output=[]
+for  i in range(0,len(outcome)):
+    predictions.append('spam' if abs(outcome[i])>0.5 else 'ham')
 
+res = pd.DataFrame({'SmsId':indexes,'Label':predictions})
+res.to_csv("sampleSubmission.csv",index=False,sep=',')
